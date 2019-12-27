@@ -1,10 +1,10 @@
 from tkinter import *
-import src.uTable
-import src.uSearch
-import src.uData
+import src.Table
+import src.Search
+import src.Data
 
 def main():
-    conector = src.uData.Ginerdata(host='216.231.129.35', user='idemself_ginercor', password='itg#2]/pln%8dk@n',
+    conector = src.Data.Ginerdata(host='216.231.129.35', user='idemself_ginercor', password='itg#2]/pln%8dk@n',
                                    database='idemself_test')
 
     window = Tk()
@@ -15,8 +15,8 @@ def main():
     CestaFrame.grid(row=0, column=1)
 
     # <--- *** TableFrame *** ---> #
-    SearchTabP = src.uSearch.Search(TableFrame)  # Entrada de busqueda
-    TabProductos = src.uTable.Tabla(TableFrame, height=15)  # Tabla de productos de busqueda
+    SearchTabP = src.Search.Search(TableFrame)  # Entrada de busqueda
+    TabProductos = src.Table.Tabla(TableFrame, height=15)  # Tabla de productos de busqueda
     TabProductos.createTB(  # Se configura la forma de la tabla
         {'head': 'Nombre del producto', 'anchor': 'w', 'width': 450},
         {'head': 'Precio', 'width': 50, 'anchor': 'center'},
@@ -38,7 +38,7 @@ def main():
     SearchTabP.Entrada.bind('<Return>', retrieveTabP)
 
     # <--- *** CestaFrame *** ---> #
-    CestaTable = src.uTable.Tabla(CestaFrame, height=5)
+    CestaTable = src.Table.Tabla(CestaFrame, height=5)
     CestaTable.createTB(
         {'head': 'Producto', 'anchor': 'w', 'width': 150},
         {'head': 'Precio', 'anchor': 'center', 'width': 50},
