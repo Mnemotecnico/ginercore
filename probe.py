@@ -3,7 +3,6 @@ import src.uTable
 import src.uSearch
 import src.uData
 
-    # Prueba de cambios menores
 def main():
     conector = src.uData.Ginerdata(host='216.231.129.35', user='idemself_ginercor', password='itg#2]/pln%8dk@n',
                                    database='idemself_test')
