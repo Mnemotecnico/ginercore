@@ -7,6 +7,7 @@ def main():
     conector = src.Data.Ginerdata(host='localhost', user='root', password='',
                                    database='test')
 
+    # Construcción de la ventana principal & widgets
     window = Tk()
     window.title('Sistema de control administrativo')
     TableFrame = Frame(window)  # Frame de la busqueda de productos (entry, treeview y button)
@@ -35,6 +36,7 @@ def main():
         TabProductos.insertDATA(rowsProducts, clear=True)
 
     SearchTabP.Boton.bind('<Button-1>', retrieveTabP)
+    SearchTabP.Entrada.bind('<KeyPress>', retrieveTabP)
     SearchTabP.Entrada.bind('<Return>', retrieveTabP)
 
     # <--- *** CestaFrame *** ---> #
@@ -45,8 +47,9 @@ def main():
         {'head': 'Cantidad', 'anchor': 'center', 'width': 75}
     )
 
-    window.mainloop()
 
+
+    window.mainloop()
 
 if __name__ == '__main__':
     main()

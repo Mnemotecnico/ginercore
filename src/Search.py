@@ -15,10 +15,6 @@ class Search(Frame):
         self.Boton = Button(self, text='Buscar', width=7)
         self.Entrada = Entry(self, width=85)
 
-        # Métodos bind
-        #self.Boton.bind('<Button-1>', self.eventHandler)
-        #self.Entrada.bind('<KeyPress>', self.eventHandler)
-
         # Posicionamiento de los widget de la clase
         self.Entrada.grid(row=0, column=0, padx=4, pady=4)
         self.Boton.grid(row=0, column=1, padx=4, pady=4)
