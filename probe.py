@@ -4,8 +4,8 @@ import src.Search
 import src.Data
 
 def main():
-    conector = src.Data.Ginerdata(host='216.231.129.35', user='idemself_ginercor', password='itg#2]/pln%8dk@n',
-                                   database='idemself_test')
+    conector = src.Data.Ginerdata(host='localhost', user='root', password='',
+                                   database='test')
 
     window = Tk()
     window.title('Sistema de control administrativo')

@@ -14,18 +14,13 @@ class Ginerdata(object):
         self.password = password
         self.database = database
 
+    # La siguiente función debe incluir a futuro encriptación SSL
     def connectDatabase(self):
         return mysql.connector.connect(
             user=self.user,
             host=self.host,
             passwd=self.password,
-            database=self.database,
-            auth_plugin='mysql_native_password',
-            client_flags=[mysql.connector.constants.ClientFlag.SSL],
-            ssl_ca='/opt/mysql/ssl/ca.pem',
-            ssl_cert='/opt/mysql/ssl/client-cert.pem',
-            ssl_key='/opt/mysql/ssl/client-key.pem',
-
+            database=self.database
         )
 
     def buscarProductos(self, parametro):
