@@ -5,8 +5,9 @@ class SpecialMenu(Menu):
         super().__init__(master)
 
         self.filename = Menu(self, tearoff = 0)
-        self.filename.add_command(label="New")
-        self.add_cascade(label = "File", menu = self.filename)
+        self.filename.add_command(label="En construcción...")
+        self.add_cascade(label = "Estado", menu = self.filename)
+        self.add_cascade(label="Modificaciones", menu=self.filename)
 
 if __name__ == '__main__':
 

@@ -10,7 +10,7 @@ class Tabla(Frame):
 
     def __init__(self, master=None, height=10):
         super().__init__(master)
-        self.tabla = Treeview(self, height=height)  # Instancia de Treeview para trabajar como una propiedad nativa de la clase
+        self.Treeview = Treeview(self, height=height)  # Instancia de Treeview para trabajar como una propiedad nativa de la clase
         self.grid()
 
     def createTB(self, *args):
@@ -41,7 +41,7 @@ class Tabla(Frame):
             except:
                 anchors.append(None)
 
-        self.tabla['column'] = titulos[1:]  # Asigna los titulos y datos a los encabezados de la tabla
+        self.Treeview['column'] = titulos[1:]  # Asigna los titulos y datos a los encabezados de la tabla
         for element in range(len(titulos)):
             mode = 0  # 0: Sin anchor ni width, 1: Solo width, 2: Just anchor, 3: Anchor y width
             if widths[element] is not None:
@@ -55,29 +55,29 @@ class Tabla(Frame):
             if element == 0:  # Este condicional es únicamente para el encabezado padre #0
 
                 if mode == 0:
-                    self.tabla.heading("#0", text=titulos[element])
+                    self.Treeview.heading("#0", text=titulos[element])
                 elif mode == 1:
-                    self.tabla.heading("#0", text=titulos[element])
-                    self.tabla.column('#0', width=widths[element])
+                    self.Treeview.heading("#0", text=titulos[element])
+                    self.Treeview.column('#0', width=widths[element])
                 elif mode == 2:
-                    self.tabla.heading("#0", text=titulos[element], anchor=anchors[element])
+                    self.Treeview.heading("#0", text=titulos[element], anchor=anchors[element])
                 elif mode == 3:
-                    self.tabla.heading("#0", text=titulos[element], anchor=anchors[element])
-                    self.tabla.column('#0', width=widths[element])
+                    self.Treeview.heading("#0", text=titulos[element], anchor=anchors[element])
+                    self.Treeview.column('#0', width=widths[element])
             else:  # Este bloque se ejecuta los encabezados no principales
 
                 if mode == 0:
-                    self.tabla.heading(titulos[element], text=titulos[element])
+                    self.Treeview.heading(titulos[element], text=titulos[element])
                 elif mode == 1:
-                    self.tabla.heading(titulos[element], text=titulos[element])
-                    self.tabla.column(titulos[element], width=widths[element])
+                    self.Treeview.heading(titulos[element], text=titulos[element])
+                    self.Treeview.column(titulos[element], width=widths[element])
                 elif mode == 2:
-                    self.tabla.heading(titulos[element], text=titulos[element], anchor=anchors[element])
+                    self.Treeview.heading(titulos[element], text=titulos[element], anchor=anchors[element])
                 elif mode == 3:
-                    self.tabla.heading(titulos[element], text=titulos[element], anchor=anchors[element])
-                    self.tabla.column(titulos[element], width=widths[element])
+                    self.Treeview.heading(titulos[element], text=titulos[element], anchor=anchors[element])
+                    self.Treeview.column(titulos[element], width=widths[element])
 
-        self.tabla.grid()
+        self.Treeview.grid()
 
     def insertDATA(self, content, clear=False):
         """
@@ -87,13 +87,13 @@ class Tabla(Frame):
         :return: sin retorno.
         """
         if clear:
-            self.tabla.delete(*self.tabla.get_children())
+            self.Treeview.delete(*self.Treeview.get_children())
 
         if len(content) == 0 or len(content[0]) == 0:
             pass
         else:
             for data in content:
-                self.tabla.insert('', 'end', text=data[0], values=data[1:])
+                self.Treeview.insert('', 'end', text=data[0], values=data[1:])
 
     def getSELECTION(self):
         """
@@ -102,7 +102,7 @@ class Tabla(Frame):
         """
 
         # Diccionario con la información de la fila {'text': 1, 'image': '', 'values': ['nmas'], 'open': 0, 'tags': ''}
-        contentT = self.tabla.item(self.tabla.selection())
+        contentT = self.Treeview.item(self.Treeview.selection())
         datos = [contentT['text']] + contentT['values']
         return datos
 
