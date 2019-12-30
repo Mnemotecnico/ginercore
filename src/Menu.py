@@ -8,6 +8,7 @@ class SpecialMenu(Menu):
         self.filename.add_command(label="En construcción...")
         self.add_cascade(label = "Estado", menu = self.filename)
         self.add_cascade(label="Modificaciones", menu=self.filename)
+        self.add_cascade(label="Panel estocástico", menu=self.filename)
 
 if __name__ == '__main__':
 

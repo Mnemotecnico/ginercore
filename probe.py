@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 import src.Table
 import src.Search
 import src.Data
@@ -28,22 +29,32 @@ def main():
                 rowsProducts.append([rowcomplet[2], rowcomplet[5], rowcomplet[3]])
         TabProductos.insertDATA(rowsProducts, clear=True)
 
+
     # Esta función será un ResponseHandler de TableFrame
     def submit_cest(event):
-        pass
+        try:
+            focus_select = TabProductos.Treeview.item(TabProductos.Treeview.selection())
+            focus_select = [focus_select['text'], float(focus_select['values'][0]), entry_cant.get()]
+            CestaTable.insertDATA([tuple(focus_select)], clear=False)
+        except:
+            messagebox.showerror('Oye, tranquilo viejo', 'No se puede añadir eso.')
 
     SearchTabP = src.Search.Search(TableFrame)  # Entrada de busqueda
     TabProductos = src.Table.Tabla(TableFrame, height=15)  # Tabla de productos de busqueda
-    #TabProductos.Treeview.bind('<<TreeviewSelect>>', getfocus) # Evento de selección de productos en inventario
+    # TabProductos.Treeview.bind('<<TreeviewSelect>>', getfocus) # Evento de selección de productos en inventario
 
     TabProductos.createTB(  # Se configura la forma de la tabla
         {'head': 'Nombre del producto', 'anchor': 'w', 'width': 450},
         {'head': 'Precio', 'width': 50, 'anchor': 'center'},
         {'head': 'Existencias', 'width': 75, 'anchor': 'center'}
     )
+
+    entry_cant = Entry(SearchTabP, width=4)
+    entry_cant.grid(row=0, column=2, padx=3)
+
     AddCesta = Button(SearchTabP, text='Agregar')  # Este boton será el añadir a la cesta de la tabla de busqueda
-    AddCesta.bind('<Button-1>', submit_cest)
-    AddCesta.grid(row=0, column=2)
+    AddCesta.bind('<ButtonRelease-1>', submit_cest)
+    AddCesta.grid(row=0, column=3)
 
     SearchTabP.Boton.bind('<Button-1>', retrieveTabP)
     SearchTabP.Entrada.bind('<KeyPress>', retrieveTabP)
@@ -57,7 +68,7 @@ def main():
         {'head': 'Cantidad', 'anchor': 'center', 'width': 75}
     )
 
-    window.config(menu = src.Menu.SpecialMenu(window))
+    window.config(menu=src.Menu.SpecialMenu(window))
     window.mainloop()
 
 

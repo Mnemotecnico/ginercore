@@ -13,6 +13,9 @@ class Tabla(Frame):
         self.Treeview = Treeview(self, height=height)  # Instancia de Treeview para trabajar como una propiedad nativa de la clase
         self.grid()
 
+        self.Scrollbar = Scrollbar(self, orient="vertical", command=self.Treeview.yview)
+        self.Scrollbar.pack(side='right', fill='y')
+
     def createTB(self, *args):
         '''
         :param args: Cadenas de texto que representan el encabezado de la columna o diccionarios {head:value, width:value, anchor:value}
@@ -77,7 +80,10 @@ class Tabla(Frame):
                     self.Treeview.heading(titulos[element], text=titulos[element], anchor=anchors[element])
                     self.Treeview.column(titulos[element], width=widths[element])
 
-        self.Treeview.grid()
+        self.Treeview.pack(side="left")
+
+        # Configuración del Scrollbar
+        self.Treeview.config(yscrollcommand=self.Scrollbar.set)
 
     def insertDATA(self, content, clear=False):
         """
