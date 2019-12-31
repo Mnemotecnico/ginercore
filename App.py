@@ -13,10 +13,13 @@ def main():
     # Construcción de la ventana principal & widgets
     window = Tk()
     window.title('Sistema de control administrativo')
+
+    # < Instancias de Frames > #
     TableFrame = Frame(window)  # Frame de la busqueda de productos (entry, treeview y button)
     CestaFrame = Frame(window)  # Frame de la cesta de productos y calculadora
     TableFrame.grid()
     CestaFrame.grid(row=0, column=1)
+
 
     # <--- *** TableFrame *** ---> #
     # Esta funcion será el EventHandler de SearchTabP
@@ -34,8 +37,11 @@ def main():
     def submit_cest(event):
         try:
             focus_select = TabProductos.Treeview.item(TabProductos.Treeview.selection())
-            focus_select = [focus_select['text'], float(focus_select['values'][0]), entry_cant.get()]
+            focus_select = [focus_select['text'], float(focus_select['values'][0]), int(entry_cant.get())]
             CestaTable.insertDATA([tuple(focus_select)], clear=False)
+            TabProductos.Treeview.selection_remove(TabProductos.Treeview.selection())
+            entry_cant.delete(0, 'end')
+            SearchTabP.Entrada.delete(0, 'end')
         except:
             messagebox.showerror('Oye, tranquilo viejo', 'No se puede añadir eso.')
 
@@ -61,12 +67,47 @@ def main():
     SearchTabP.Entrada.bind('<Return>', retrieveTabP)
 
     # <--- *** CestaFrame *** ---> #
+
+    # Función EventHandler para eliminar items del objeto cesta
+    def del_icesta(event):
+        try:
+            for item in CestaTable.Treeview.selection():
+                CestaTable.Treeview.delete(item)
+        except:
+            messagebox.showerror('Error', 'No se realizó la acción')
+
     CestaTable = src.Table.Tabla(CestaFrame, height=5)
     CestaTable.createTB(
         {'head': 'Producto', 'anchor': 'w', 'width': 150},
         {'head': 'Precio', 'anchor': 'center', 'width': 50},
         {'head': 'Cantidad', 'anchor': 'center', 'width': 75}
     )
+
+    DeleteCesta = Button(CestaFrame, text = "Eliminar de la cesta")
+    DeleteCesta.bind('<ButtonRelease-1>', del_icesta)
+    DeleteCesta.grid(row = 1, column = 0, padx = 2, pady = 2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     window.config(menu=src.Menu.SpecialMenu(window))
     window.mainloop()
