@@ -4,8 +4,9 @@ import src.Table
 import src.Search
 import src.Data
 import src.Menu
+import src.CuentaPago
 
-
+# Non direction
 def main():
     conector = src.Data.Ginerdata(host='localhost', user='root', password='',
                                   database='test')
@@ -58,7 +59,7 @@ def main():
     entry_cant = Entry(SearchTabP, width=4)
     entry_cant.grid(row=0, column=2, padx=3)
 
-    AddCesta = Button(SearchTabP, text='Agregar')  # Este boton será el añadir a la cesta de la tabla de busqueda
+    AddCesta = Button(SearchTabP, text='Agregar', relief = GROOVE)  # Este boton será el añadir a la cesta de la tabla de busqueda
     AddCesta.bind('<ButtonRelease-1>', submit_cest)
     AddCesta.grid(row=0, column=3)
 
@@ -71,11 +72,18 @@ def main():
     # Función EventHandler para eliminar items del objeto cesta
     def del_icesta(event):
         try:
-            for item in CestaTable.Treeview.selection():
-                CestaTable.Treeview.delete(item)
+            if CestaTable.Treeview.selection() != ():
+                for item in CestaTable.Treeview.selection():
+                    CestaTable.Treeview.delete(item)
+            else:
+                messagebox.showerror('Error', 'No has seleccionado nada')
         except:
             messagebox.showerror('Error', 'No se realizó la acción')
 
+    # Frame de la cuenta
+    cuenta = src.CuentaPago.CuentaPago(CestaFrame)
+
+    # Frame de la cesta de compra
     CestaTable = src.Table.Tabla(CestaFrame, height=5)
     CestaTable.createTB(
         {'head': 'Producto', 'anchor': 'w', 'width': 150},
@@ -83,9 +91,11 @@ def main():
         {'head': 'Cantidad', 'anchor': 'center', 'width': 75}
     )
 
-    DeleteCesta = Button(CestaFrame, text = "Eliminar de la cesta")
+    # Botón de borrar elemento de la cesta de compra
+    DeleteCesta = Button(CestaFrame, text = "Eliminar de la cesta", relief = GROOVE)
     DeleteCesta.bind('<ButtonRelease-1>', del_icesta)
-    DeleteCesta.grid(row = 1, column = 0, padx = 2, pady = 2)
+    DeleteCesta.grid(pady = 5)
+
 
 
 

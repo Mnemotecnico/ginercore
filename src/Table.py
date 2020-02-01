@@ -8,7 +8,7 @@ class Tabla(Frame):
     Esta clase permite crear una tabla con encabezados personalizados
     """
 
-    def __init__(self, master=None, height=10):
+    def __init__(self, master=None, height=10, coords = (0,0)):
         super().__init__(master)
         self.Treeview = Treeview(self, height=height)  # Instancia de Treeview para trabajar como una propiedad nativa de la clase
         self.grid()
