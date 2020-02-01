@@ -37,12 +37,26 @@ def main():
     # Esta función será un ResponseHandler de TableFrame
     def submit_cest(event):
         try:
+
             focus_select = TabProductos.Treeview.item(TabProductos.Treeview.selection())
-            focus_select = [focus_select['text'], float(focus_select['values'][0]), int(entry_cant.get())]
-            CestaTable.insertDATA([tuple(focus_select)], clear=False)
-            TabProductos.Treeview.selection_remove(TabProductos.Treeview.selection())
-            entry_cant.delete(0, 'end')
-            SearchTabP.Entrada.delete(0, 'end')
+
+            nombreProducto = focus_select['text']
+            precioProducto = float(focus_select['values'][0])
+            cantidadProducto = int(entry_cant.get())
+            if cantidadProducto > 0:
+                focus_select = [nombreProducto, precioProducto, cantidadProducto]
+                CestaTable.insertDATA([tuple(focus_select)], clear=False)
+                TabProductos.Treeview.selection_remove(TabProductos.Treeview.selection())
+                entry_cant.delete(0, 'end')
+                SearchTabP.Entrada.delete(0, 'end')
+
+                montoAdicionalDeVenta = precioProducto * cantidadProducto
+                PanelDeVenta.elementosTransaccion(ventasP=montoAdicionalDeVenta)
+            else:
+                messagebox.showerror('Oye, tranquilo viejo', 'Cantidad negativa? \nQué coño?')
+
+
+
         except:
             messagebox.showerror('Oye, tranquilo viejo', 'No se puede añadir eso.')
 
@@ -74,14 +88,28 @@ def main():
         try:
             if CestaTable.Treeview.selection() != ():
                 for item in CestaTable.Treeview.selection():
+                    productoAEliminar = CestaTable.Treeview.item(item)
+                    precioProducto = float(productoAEliminar['values'][0])
+                    cantidadProducto = float(productoAEliminar['values'][1])
+
+                    nuevoMontoDeVenta = -(precioProducto*cantidadProducto)
+                    PanelDeVenta.elementosTransaccion(ventasP=nuevoMontoDeVenta, vueltoP= PanelDeVenta.vuelto_valor, pagoP= PanelDeVenta.pago_valor)
+                    PanelDeVenta.calcularBton(event = None)
+
                     CestaTable.Treeview.delete(item)
+
+
+
+
+
+
             else:
                 messagebox.showerror('Error', 'No has seleccionado nada')
         except:
             messagebox.showerror('Error', 'No se realizó la acción')
 
     # Frame de la cuenta
-    cuenta = src.CuentaPago.CuentaPago(CestaFrame)
+    PanelDeVenta = src.CuentaPago.CuentaPago(CestaFrame)
 
     # Frame de la cesta de compra
     CestaTable = src.Table.Tabla(CestaFrame, height=5)

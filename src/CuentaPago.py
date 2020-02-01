@@ -22,8 +22,12 @@ class CuentaPago(Frame):
         self.elementosTransaccion()
 
 
-    def calcularBton(self, event, vuelto):
-        self.elementosTransaccion(self.venta_valor, vuelto)
+    def calcularBton(self, event):
+        montoDeVenta = float(self.venta_valor)
+        cantidadDePago = float(self.entry_pago.get())
+        vuelto = cantidadDePago - montoDeVenta
+        self.elementosTransaccion(vueltoP = vuelto, pagoP= cantidadDePago)
+
 
 
     def elementosTransaccion(self, ventasP = 0, vueltoP = 0, pagoP = 0):
@@ -35,14 +39,16 @@ class CuentaPago(Frame):
         :param vueltoP: Valor del monto a devolver
         :return: Retorna una tupla de la forma (ventasP,vueltoP)
         '''
-
+        self.venta_valor += ventasP
+        self.pago_valor = pagoP
+        self.vuelto_valor = vueltoP
 
         # Label de ventas
-        label_ventas = Label(self.Internel, text = "Ventas:")
+        label_ventas = Label(self.Internel, text = "Venta:")
         label_ventas.grid(row = 0, column = 0, sticky = "w")
 
         # Valor de ventas
-        label_ventas_valor = Label(self.Internel, text = ventasP)
+        label_ventas_valor = Label(self.Internel, text = '$'+str(self.venta_valor))
         label_ventas_valor.grid(row = 0, column = 1)
 
         # Label de pago
@@ -50,13 +56,14 @@ class CuentaPago(Frame):
         label_pago.grid(row = 1, column = 0, sticky = "w")
 
         # Entrada del monto con el que paga el vendedor
-        entry_pago = Entry(self.Internel, width = 20, justify='center')
-        entry_pago.insert(0, pagoP)
-        entry_pago.grid(row = 1, column = 1, padx = 3)
+        self.entry_pago = Entry(self.Internel, width = 20, justify='center')
+        self.entry_pago.insert(0, self.pago_valor)
+        self.entry_pago.grid(row = 1, column = 1, padx = 3)
+        self.entry_pago.bind("<Button-1>", self.clearEntry)
 
         # Botón de calcular vuelto
         calcular_bton = Button(self.Internel, text = "Calcular vuelto", relief = GROOVE)
-        calcular_bton.bind('<ButtonRelease-1>', lambda a: self.calcularBton(a, self.vuelto_valor))
+        calcular_bton.bind('<ButtonRelease-1>', self.calcularBton)
         calcular_bton.grid(row = 2, column = 1, padx = 5, pady = 5)
 
         # Label de vuelto
@@ -64,10 +71,14 @@ class CuentaPago(Frame):
         label_vuelto.grid(row = 3, column = 0, sticky = "w")
 
         # Valor de vuelto
-        label_vuelto_valor = Label(self.Internel, text = vueltoP)
+        label_vuelto_valor = Label(self.Internel, text = '$'+str(self.vuelto_valor))
         label_vuelto_valor.grid(row = 3, column = 1)
 
         return label_ventas_valor.cget("text"), label_vuelto_valor.cget('text')
+
+
+    def clearEntry(self, event):
+        self.entry_pago.delete(0, "end")
 
 
 
