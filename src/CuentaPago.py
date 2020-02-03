@@ -1,5 +1,6 @@
 from tkinter import *
-
+import datetime
+from tkinter import messagebox
 
 class CuentaPago(Frame):
 
@@ -14,12 +15,31 @@ class CuentaPago(Frame):
         self.Internel2 = Frame(self)
         self.Internel2.grid(row = 1, column = 0)
 
+        self.Internel3 = Frame(self)
+        self.Internel3.grid(row = 2, column = 0)
+
         # Variables necesarias de la clase
         self.venta_valor = 0
         self.vuelto_valor = 0
+        self.dataObject = None
 
         # Contrucción inicial del marco
         self.elementosTransaccion()
+        self.realizarVenta()
+
+    def set_DataObject(self, dataObject):
+        self.dataObject = dataObject
+
+    def currentDate(self):
+        date = datetime.datetime.now()
+        year = date.year
+        month = date.month
+        day = date.day
+        hour = date.hour
+        minute = date.minute
+        second = date.second
+
+        return str(year)+'-'+str(month)+'-'+str(day)+' '+str(hour)+':'+str(minute)+':'+str(second)
 
 
     def calcularBton(self, event):
@@ -27,6 +47,22 @@ class CuentaPago(Frame):
         cantidadDePago = float(self.entry_pago.get())
         vuelto = cantidadDePago - montoDeVenta
         self.elementosTransaccion(vueltoP = vuelto, pagoP= cantidadDePago)
+
+    def realizarVenta(self):
+        ventaBoton = Button(self.Internel3, text = "Registrar venta", relief = GROOVE, width = 35)
+        ventaBoton.bind('<ButtonRelease-1>', self.dataSellToSQL)
+        ventaBoton.grid()
+
+    def dataSellToSQL(self, event):
+        date = self.currentDate()
+        MessageConfirm = "Esta acción modificará la base de datos."
+        proccessAllowed = messagebox.askquestion("Registrar venta", MessageConfirm)
+
+        if TRUE:
+            items = self.dataObject.Treeview.get_children()
+            print(items)
+            # continuar desde aquí
+
 
 
 

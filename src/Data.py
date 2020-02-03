@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 # This class need <pip install mysql-connector-python>
 import mysql.connector
+import datetime
 
 class Ginerdata(object):
     """
@@ -22,6 +23,28 @@ class Ginerdata(object):
             passwd=self.password,
             database=self.database
         )
+
+
+    def registrarTransaccion(self, datos):
+        """
+        Este método registrará los datos de la venta en la tabla "transacciones"
+        :param datos: Lista de tuplas de la forma (productID, cantidad, fecha)
+        """
+
+        # Se conecta con la base de datos
+        sqlConnection = self.connectDatabase()
+        sqlCursor = sqlConnection.cursor()
+
+        QueryTransacciones = "INSERT INTO transacciones (transactionID, productID, cantidad, fecha) VALUES (%s, %s, %s, %s)"
+        QueryBlockTransacciones = "INSERT INTO logsell (fecha) VALUES (%s)"
+
+        sqlCursor.execute(QueryBlockTransacciones, datos[0][-1])
+        sqlConnection.commit()
+
+        sqlCursor.executemany(QueryTransacciones, datos)
+        sqlConnection.commit()
+
+        sqlConnection.close()
 
     def buscarProductos(self, parametro):
         """

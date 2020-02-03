@@ -101,8 +101,6 @@ def main():
 
 
 
-
-
             else:
                 messagebox.showerror('Error', 'No has seleccionado nada')
         except:
@@ -118,6 +116,8 @@ def main():
         {'head': 'Precio', 'anchor': 'center', 'width': 50},
         {'head': 'Cantidad', 'anchor': 'center', 'width': 75}
     )
+
+    PanelDeVenta.set_DataObject(CestaTable)
 
     # Botón de borrar elemento de la cesta de compra
     DeleteCesta = Button(CestaFrame, text = "Eliminar de la cesta", relief = GROOVE)
