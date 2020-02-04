@@ -2,6 +2,7 @@
 # This class need <pip install mysql-connector-python>
 import mysql.connector
 import datetime
+import time
 
 class Ginerdata(object):
     """
@@ -25,26 +26,45 @@ class Ginerdata(object):
         )
 
 
-    def registrarTransaccion(self, datos):
+    def registrarTransaccion(self, datos, date):
         """
         Este método registrará los datos de la venta en la tabla "transacciones"
-        :param datos: Lista de tuplas de la forma (productID, cantidad, fecha)
+        :param datos: Lista de tuplas de la forma (transactionID, productID, cantidad)
         """
-
         # Se conecta con la base de datos
         sqlConnection = self.connectDatabase()
         sqlCursor = sqlConnection.cursor()
 
-        QueryTransacciones = "INSERT INTO transacciones (transactionID, productID, cantidad, fecha) VALUES (%s, %s, %s, %s)"
-        QueryBlockTransacciones = "INSERT INTO logsell (fecha) VALUES (%s)"
+        QueryTransacciones = 'INSERT INTO transacciones (transactionID, productID, cantidad) VALUES (%s, %s, %s)'
+        QueryBlockTransacciones = 'INSERT INTO logsell (fecha) VALUES (%s)'
+        UpdateInventario = "UPDATE productos SET existencias = existencias - %s WHERE productID = %s"
 
-        sqlCursor.execute(QueryBlockTransacciones, datos[0][-1])
+        # Se registra el bloque de transacciones
+        sqlCursor.execute(QueryBlockTransacciones, (date,))
         sqlConnection.commit()
 
+        # Se obtiene el ID del bloque de transacciones
+        GetTransId = "SELECT transactionID FROM logsell WHERE fecha = %s"
+        sqlCursor.execute(GetTransId, (date,))
+        TransID = sqlCursor.fetchall()[0][0]
+
+        for i in range(len(datos)):
+            datos[i] = [TransID]+datos[i]
+
+        # Se registran las transacciones
         sqlCursor.executemany(QueryTransacciones, datos)
         sqlConnection.commit()
 
-        sqlConnection.close()
+
+
+        for transaccion in datos:
+            sqlCursor.execute(UpdateInventario, (transaccion[2], transaccion[1]))
+            sqlConnection.commit()
+
+
+
+
+        #sqlConnection.close()
 
     def buscarProductos(self, parametro):
         """

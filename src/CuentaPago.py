@@ -1,6 +1,7 @@
 from tkinter import *
-import datetime
+import time
 from tkinter import messagebox
+import src.Data
 
 class CuentaPago(Frame):
 
@@ -22,24 +23,18 @@ class CuentaPago(Frame):
         self.venta_valor = 0
         self.vuelto_valor = 0
         self.dataObject = None
+        self.conectorSQL = None
 
         # Contrucción inicial del marco
         self.elementosTransaccion()
         self.realizarVenta()
 
+    def set_connectSQL(self, conectorSQL):
+        self.conectorSQL = conectorSQL
+
+
     def set_DataObject(self, dataObject):
         self.dataObject = dataObject
-
-    def currentDate(self):
-        date = datetime.datetime.now()
-        year = date.year
-        month = date.month
-        day = date.day
-        hour = date.hour
-        minute = date.minute
-        second = date.second
-
-        return str(year)+'-'+str(month)+'-'+str(day)+' '+str(hour)+':'+str(minute)+':'+str(second)
 
 
     def calcularBton(self, event):
@@ -53,15 +48,26 @@ class CuentaPago(Frame):
         ventaBoton.bind('<ButtonRelease-1>', self.dataSellToSQL)
         ventaBoton.grid()
 
+
     def dataSellToSQL(self, event):
-        date = self.currentDate()
+        date = time.strftime('%Y-%m-%d %H:%M:%S')
         MessageConfirm = "Esta acción modificará la base de datos."
         proccessAllowed = messagebox.askquestion("Registrar venta", MessageConfirm)
 
         if TRUE:
             items = self.dataObject.Treeview.get_children()
-            print(items)
-            # continuar desde aquí
+            contenedorDeItems = []
+            for item in items:
+                valuesProduct = self.dataObject.Treeview.item(item)
+
+                valuesProduct = [valuesProduct['values'][2],
+                                 valuesProduct['values'][1]
+                                 ]
+                contenedorDeItems.append(valuesProduct)
+
+            # Este método es de la clase Data
+            self.conectorSQL.registrarTransaccion(contenedorDeItems, date)
+
 
 
 

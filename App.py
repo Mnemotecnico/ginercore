@@ -7,9 +7,16 @@ import src.Menu
 import src.CuentaPago
 
 # Non direction
+
+
+
 def main():
-    conector = src.Data.Ginerdata(host='localhost', user='root', password='',
-                                  database='test')
+    HOST = 'localhost'
+    USER = 'root'
+    PASS = ''
+    DATABASE = 'test'
+    conector = src.Data.Ginerdata(host=HOST, user=USER, password=PASS,
+                                        database=DATABASE)
 
     # Construcción de la ventana principal & widgets
     window = Tk()
@@ -30,7 +37,8 @@ def main():
         rowsProducts = []
         if pData is not None:
             for rowcomplet in pData:
-                rowsProducts.append([rowcomplet[2], rowcomplet[5], rowcomplet[3]])
+                rowsProducts.append([rowcomplet[2], rowcomplet[5], rowcomplet[3], rowcomplet[0]])
+
         TabProductos.insertDATA(rowsProducts, clear=True)
 
 
@@ -43,8 +51,9 @@ def main():
             nombreProducto = focus_select['text']
             precioProducto = float(focus_select['values'][0])
             cantidadProducto = int(entry_cant.get())
+            productID = int(focus_select['values'][2])
             if cantidadProducto > 0:
-                focus_select = [nombreProducto, precioProducto, cantidadProducto]
+                focus_select = [nombreProducto, precioProducto, cantidadProducto, productID]
                 CestaTable.insertDATA([tuple(focus_select)], clear=False)
                 TabProductos.Treeview.selection_remove(TabProductos.Treeview.selection())
                 entry_cant.delete(0, 'end')
@@ -118,6 +127,9 @@ def main():
     )
 
     PanelDeVenta.set_DataObject(CestaTable)
+    newConnect = src.Data.Ginerdata(host=HOST, user=USER, password=PASS,
+                                        database=DATABASE)
+    PanelDeVenta.set_connectSQL(newConnect)
 
     # Botón de borrar elemento de la cesta de compra
     DeleteCesta = Button(CestaFrame, text = "Eliminar de la cesta", relief = GROOVE)
