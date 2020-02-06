@@ -20,14 +20,22 @@ class CuentaPago(Frame):
         self.Internel3.grid(row = 2, column = 0)
 
         # Variables necesarias de la clase
-        self.venta_valor = 0
-        self.vuelto_valor = 0
+        self.venta_valor = 0.0
+        self.vuelto_valor = 0.0
         self.dataObject = None
         self.conectorSQL = None
+        self.cestaObject = None
+        self.tableProducts = None
 
         # Contrucción inicial del marco
         self.elementosTransaccion()
         self.realizarVenta()
+
+    def set_tableProducts(self, tableProducts):
+        self.tableProducts = tableProducts
+
+    def set_canastaObject(self, canastaObject):
+        self.cestaObject = canastaObject
 
     def set_connectSQL(self, conectorSQL):
         self.conectorSQL = conectorSQL
@@ -35,6 +43,13 @@ class CuentaPago(Frame):
 
     def set_DataObject(self, dataObject):
         self.dataObject = dataObject
+
+    # Limpiar el objeto de tableProducts
+    def clearTabProducts(self):
+        if self.tableProducts != None:
+            items = self.tableProducts.Treeview.get_children()
+            self.tableProducts.Treeview.delete(*items)
+
 
 
     def calcularBton(self, event):
@@ -68,11 +83,21 @@ class CuentaPago(Frame):
             # Este método es de la clase Data
             self.conectorSQL.registrarTransaccion(contenedorDeItems, date)
 
+            # Vaciar el canasto de venta
+            itemsDeLaCanasta = self.cestaObject.Treeview.get_children()
+            for i in itemsDeLaCanasta: self.cestaObject.Treeview.delete(i)
+
+            # Vaciar el panel de venta
+            self.elementosTransaccion(init=TRUE)
+
+            # Vaciar la tabla de productos
+            self.clearTabProducts()
 
 
 
 
-    def elementosTransaccion(self, ventasP = 0, vueltoP = 0, pagoP = 0):
+
+    def elementosTransaccion(self, ventasP = 0.0, vueltoP = 0.0, pagoP = 0.0, init = FALSE):
         '''
 
         Este método no hace cáculos. Sólo construye el Frame que muestra los velores de venta.
@@ -81,9 +106,14 @@ class CuentaPago(Frame):
         :param vueltoP: Valor del monto a devolver
         :return: Retorna una tupla de la forma (ventasP,vueltoP)
         '''
-        self.venta_valor += ventasP
-        self.pago_valor = pagoP
-        self.vuelto_valor = vueltoP
+        if init == FALSE:
+            self.venta_valor += ventasP
+            self.pago_valor = pagoP
+            self.vuelto_valor = vueltoP
+        else :
+            self.venta_valor = 0.0
+            self.pago_valor = 0
+            self.vuelto_valor = 0.0
 
         # Label de ventas
         label_ventas = Label(self.Internel, text = "Venta:")

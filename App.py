@@ -20,6 +20,7 @@ def main():
 
     # Construcción de la ventana principal & widgets
     window = Tk()
+    window.iconbitmap('resources/logo.ico')
     window.title('Sistema de control administrativo')
 
     # < Instancias de Frames > #
@@ -41,6 +42,30 @@ def main():
 
         TabProductos.insertDATA(rowsProducts, clear=True)
 
+    def inStock():
+        rowSelect = TabProductos.Treeview.item(TabProductos.Treeview.selection())
+        cantStock = rowSelect['values'][1]
+        idProduct = rowSelect['values'][2]
+
+        textError = "No puedes añadir a la cesta de venta más cantidad de la que hay en inventario"
+
+
+        items = CestaTable.Treeview.get_children()
+        if items != ():
+            countCesta = 0
+            for i in items:
+                if CestaTable.Treeview.item(i)['values'][2] == idProduct:
+                    countCesta += CestaTable.Treeview.item(i)['values'][1]
+
+            if countCesta < cantStock: return True
+            else: messagebox.showerror('Erro de existencias', textError)
+
+
+        else:
+            if int(entry_cant.get()) <= cantStock: return TRUE
+            else:
+                messagebox.showerror('Eror', textError)
+                return FALSE
 
     # Esta función será un ResponseHandler de TableFrame
     def submit_cest(event):
@@ -52,17 +77,19 @@ def main():
             precioProducto = float(focus_select['values'][0])
             cantidadProducto = int(entry_cant.get())
             productID = int(focus_select['values'][2])
-            if cantidadProducto > 0:
-                focus_select = [nombreProducto, precioProducto, cantidadProducto, productID]
-                CestaTable.insertDATA([tuple(focus_select)], clear=False)
-                TabProductos.Treeview.selection_remove(TabProductos.Treeview.selection())
-                entry_cant.delete(0, 'end')
-                SearchTabP.Entrada.delete(0, 'end')
+            if inStock():
+                if cantidadProducto > 0:
+                    focus_select = [nombreProducto, precioProducto, cantidadProducto, productID]
+                    CestaTable.insertDATA([tuple(focus_select)], clear=False)
+                    TabProductos.Treeview.selection_remove(TabProductos.Treeview.selection())
+                    entry_cant.delete(0, 'end')
+                    SearchTabP.Entrada.delete(0, 'end')
 
-                montoAdicionalDeVenta = precioProducto * cantidadProducto
-                PanelDeVenta.elementosTransaccion(ventasP=montoAdicionalDeVenta)
-            else:
-                messagebox.showerror('Oye, tranquilo viejo', 'Cantidad negativa? \nQué coño?')
+                    montoAdicionalDeVenta = precioProducto * cantidadProducto
+                    PanelDeVenta.elementosTransaccion(ventasP=montoAdicionalDeVenta)
+
+                else:
+                    messagebox.showerror('Oye, tranquilo viejo', 'Cantidad negativa? \nQué coño?')
 
 
 
@@ -70,7 +97,7 @@ def main():
             messagebox.showerror('Oye, tranquilo viejo', 'No se puede añadir eso.')
 
     SearchTabP = src.Search.Search(TableFrame)  # Entrada de busqueda
-    TabProductos = src.Table.Tabla(TableFrame, height=15)  # Tabla de productos de busqueda
+    TabProductos = src.Table.Tabla(TableFrame, height=17)  # Tabla de productos de busqueda
     # TabProductos.Treeview.bind('<<TreeviewSelect>>', getfocus) # Evento de selección de productos en inventario
 
     TabProductos.createTB(  # Se configura la forma de la tabla
@@ -130,6 +157,10 @@ def main():
     newConnect = src.Data.Ginerdata(host=HOST, user=USER, password=PASS,
                                         database=DATABASE)
     PanelDeVenta.set_connectSQL(newConnect)
+    PanelDeVenta.set_canastaObject(CestaTable)
+    PanelDeVenta.set_tableProducts(TabProductos)
+
+
 
     # Botón de borrar elemento de la cesta de compra
     DeleteCesta = Button(CestaFrame, text = "Eliminar de la cesta", relief = GROOVE)
