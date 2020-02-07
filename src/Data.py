@@ -22,7 +22,8 @@ class Ginerdata(object):
             user=self.user,
             host=self.host,
             passwd=self.password,
-            database=self.database
+            database=self.database,
+            auth_plugin='mysql_native_password'
         )
 
 

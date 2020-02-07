@@ -6,17 +6,17 @@ import src.Data
 import src.Menu
 import src.CuentaPago
 
-
+import keys
 
 # Non direction
 
 
 
 def main():
-    HOST = 'localhost'
-    USER = 'root'
-    PASS = ''
-    DATABASE = 'test'
+    HOST = keys.HOST
+    USER = keys.USER
+    PASS = keys.PASS
+    DATABASE = keys.DATABASE
     conector = src.Data.Ginerdata(host=HOST, user=USER, password=PASS,
                                         database=DATABASE)
 
