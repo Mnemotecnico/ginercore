@@ -9,7 +9,7 @@ Todavía no es ni una pre-alpha funcional, así que no entraré en detalles toda
 
 ## Dependencias
 
-mysql-connector
+mysql-connector-python (no usar mysql-connector, está obsoleto)
 
 ## Base de datos
 
