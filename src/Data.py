@@ -26,6 +26,9 @@ class Ginerdata(object):
             auth_plugin='mysql_native_password'
         )
 
+    def AddToInventary(self):
+        pass
+
 
     def registrarTransaccion(self, datos, date):
         """
