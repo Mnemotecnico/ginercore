@@ -26,8 +26,15 @@ class Ginerdata(object):
             auth_plugin='mysql_native_password'
         )
 
-    def AddToInventary(self):
-        pass
+    def AddToInventary(self, data):
+        sqlConnection = self.connectDatabase()
+        sqlCursor = sqlConnection.cursor()
+
+        Query = "INSERT INTO productos (nombre, existencias, precio_venta, precio_compra, ubicacion) VALUES (%s, %s, %s, %s, %s)"
+        sqlCursor.execute(Query, data)
+        sqlConnection.commit()
+
+        sqlConnection.close()
 
 
     def registrarTransaccion(self, datos, date):
@@ -68,7 +75,7 @@ class Ginerdata(object):
 
 
 
-        #sqlConnection.close()
+        sqlConnection.close()
 
     def buscarProductos(self, parametro):
         """

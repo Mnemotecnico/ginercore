@@ -1,5 +1,8 @@
 import tkinter
 
+import src.Data
+import keys
+
 from tkinter import *
 from tkinter import messagebox
 
@@ -20,10 +23,16 @@ class Inventory(Frame):
         pvp = self.pvpEntry.get()
         pva = self.pvaEntry.get()
         ubi = self.ubiEntry.get()
+        datos = (name, stock, pvp, pva, ubi)
         if name != '' and stock != '' and pvp != '' and pva != '' and ubi != '':
             if messagebox.askquestion('Advertencia', 'Esta acción modifica la base de datos.\n¿Estás seguro?'):
                 try:
-                    self.conectorObjectSQL.AddToInventary()
+                    self.conectorObjectSQL.AddToInventary(datos)
+                    self.nameEntry.delete(0, 'end')
+                    self.stockEntry.delete(0, 'end')
+                    self.pvaEntry.delete(0, 'end')
+                    self.pvpEntry.delete(0, 'end')
+                    self.ubiEntry.delete(0, 'end')
                 except: messagebox.showerror('Error', 'No se pudo realizar la acción.')
         else:
             messagebox.showerror('Error', 'Alguno de los campos está vacío.')
@@ -65,8 +74,10 @@ class Inventory(Frame):
 
 
 if __name__ == '__main__':
+    conector = src.Data.Ginerdata(keys.USER, keys.HOST, keys.PASS, keys.DATABASE)
     a = Tk()
     b = Inventory(a)
     b.grid()
+    b.set_conectorSQL(conector)
 
     a.mainloop()
