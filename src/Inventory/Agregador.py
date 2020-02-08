@@ -25,15 +25,14 @@ class Inventory(Frame):
         ubi = self.ubiEntry.get()
         datos = (name, stock, pvp, pva, ubi)
         if name != '' and stock != '' and pvp != '' and pva != '' and ubi != '':
-            if messagebox.askquestion('Advertencia', 'Esta acción modifica la base de datos.\n¿Estás seguro?'):
-                try:
-                    self.conectorObjectSQL.AddToInventary(datos)
-                    self.nameEntry.delete(0, 'end')
-                    self.stockEntry.delete(0, 'end')
-                    self.pvaEntry.delete(0, 'end')
-                    self.pvpEntry.delete(0, 'end')
-                    self.ubiEntry.delete(0, 'end')
-                except: messagebox.showerror('Error', 'No se pudo realizar la acción.')
+            try:
+                self.conectorObjectSQL.AddToInventary(datos)
+                self.nameEntry.delete(0, 'end')
+                self.stockEntry.delete(0, 'end')
+                self.pvaEntry.delete(0, 'end')
+                self.pvpEntry.delete(0, 'end')
+                self.ubiEntry.delete(0, 'end')
+            except: messagebox.showerror('Error', 'No se pudo realizar la acción.')
         else:
             messagebox.showerror('Error', 'Alguno de los campos está vacío.')
 

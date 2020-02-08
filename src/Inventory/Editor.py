@@ -142,38 +142,37 @@ class Editor(src.Table.Tabla):
 
     def evenHandlerButtonUpdate(self, event):
         if self.nameEntry.get() != '' and self.stockEntry.get() != '' and self.pvaEntry.get() != '' and self.pvpEntry.get() != '':
-            allow = messagebox.askquestion('Advertencia', 'Esta acción modificará la base de datos.\n¿Estás seguro?')
-            if allow:
-                barras = self.bcodeEntry.get()
-                nombre = self.nameEntry.get()
-                stock = self.stockEntry.get()
-                pva = self.pvaEntry.get()
-                pvp = self.pvpEntry.get()
-                ubi = self.ubiEntry.get()
-                producID = self.identry.get()
 
-                row = (barras, nombre, stock, pva, pvp, ubi, producID)
-                if self.sqlObject.UpdateInventory(row):
-                    self.bcodeEntry.delete(0, 'end')
-                    self.nameEntry.delete(0, 'end')
-                    self.stockEntry.delete(0, 'end')
-                    self.pvaEntry.delete(0, 'end')
-                    self.pvpEntry.delete(0, 'end')
-                    self.ubiEntry.delete(0, 'end')
+            barras = self.bcodeEntry.get()
+            nombre = self.nameEntry.get()
+            stock = self.stockEntry.get()
+            pva = self.pvaEntry.get()
+            pvp = self.pvpEntry.get()
+            ubi = self.ubiEntry.get()
+            producID = self.identry.get()
 
-                    self.identry.config(state = 'normal')
-                    self.identry.delete(0, 'end')
+            row = (barras, nombre, stock, pva, pvp, ubi, producID)
+            if self.sqlObject.UpdateInventory(row):
+                self.bcodeEntry.delete(0, 'end')
+                self.nameEntry.delete(0, 'end')
+                self.stockEntry.delete(0, 'end')
+                self.pvaEntry.delete(0, 'end')
+                self.pvpEntry.delete(0, 'end')
+                self.ubiEntry.delete(0, 'end')
 
-                    self.identry.config(state = 'disabled')
-                    self.bcodeEntry.config(state = 'disabled')
-                    self.nameEntry.config(state = 'disabled')
-                    self.stockEntry.config(state = 'disabled')
-                    self.pvaEntry.config(state = 'disabled')
-                    self.pvpEntry.config(state = 'disabled')
-                    self.ubiEntry.config(state = 'disabled')
+                self.identry.config(state = 'normal')
+                self.identry.delete(0, 'end')
 
-                    self.Treeview.delete(*self.Treeview.get_children())
-                    self.EntrySearchToEdit.delete(0, 'end')
+                self.identry.config(state = 'disabled')
+                self.bcodeEntry.config(state = 'disabled')
+                self.nameEntry.config(state = 'disabled')
+                self.stockEntry.config(state = 'disabled')
+                self.pvaEntry.config(state = 'disabled')
+                self.pvpEntry.config(state = 'disabled')
+                self.ubiEntry.config(state = 'disabled')
+
+                self.Treeview.delete(*self.Treeview.get_children())
+                self.EntrySearchToEdit.delete(0, 'end')
 
 
 

@@ -170,27 +170,6 @@ def main():
     DeleteCesta.grid(pady = 5)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     window.config(menu=src.Menu.SpecialMenu(window, conector))
     window.mainloop()
 

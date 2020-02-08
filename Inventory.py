@@ -4,6 +4,7 @@ import keys
 import src.Inventory.Editor
 import src.Inventory.Agregador
 
+
 def main(conector):
     window = tkinter.Tk()
     window.iconbitmap('resources/logo.ico')
@@ -15,10 +16,11 @@ def main(conector):
     agregador.set_conectorSQL(conector)
     editor.set_sqlObject(conector)
 
-    agregador.grid(row = 0)
-    editor.Frame.grid(row = 1)
+    agregador.grid(row=0)
+    editor.Frame.grid(row=1)
 
     window.mainloop()
+
 
 if __name__ == '__main__':
     conector = src.Data.Ginerdata(keys.USER, keys.HOST, keys.PASS, keys.DATABASE)
