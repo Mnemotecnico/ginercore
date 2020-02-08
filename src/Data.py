@@ -36,6 +36,22 @@ class Ginerdata(object):
 
         sqlConnection.close()
 
+    def UpdateInventory(self, data):
+        """
+        Esta función actualizará una fila entera de la tabla productos.
+        :param data: Tupla de la forma (barras,nombre,stock,pva,pvp,ubicacion)
+        :return: Booleano en caso de funcionar
+        """
+        sqlConnection = self.connectDatabase()
+        sqlCursor = sqlConnection.cursor()
+
+        Query = "UPDATE productos SET codigo_barras = %s, nombre = %s, existencias = %s, precio_compra = %s, " \
+                "precio_venta = %s, ubicacion = %s WHERE productID = %s"
+
+        sqlCursor.execute(Query, data)
+        sqlConnection.commit()
+        sqlConnection.close()
+        return True
 
     def registrarTransaccion(self, datos, date):
         """
@@ -66,14 +82,9 @@ class Ginerdata(object):
         sqlCursor.executemany(QueryTransacciones, datos)
         sqlConnection.commit()
 
-
-
         for transaccion in datos:
             sqlCursor.execute(UpdateInventario, (transaccion[2], transaccion[1]))
             sqlConnection.commit()
-
-
-
 
         sqlConnection.close()
 
@@ -150,6 +161,7 @@ class Ginerdata(object):
                     if elemento[-1] == mOccur:
                         OrderResult.append(elemento[:-1])
                 mOccur -= 1
+            sqlConnection.close()
             return OrderResult
 
 
