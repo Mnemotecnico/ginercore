@@ -6,6 +6,7 @@ import src.Inventory.Agregador
 
 def main(conector):
     window = tkinter.Tk()
+    window.iconbitmap('resources/logo.ico')
     window.title('Editor del inventario')
 
     agregador = src.Inventory.Agregador.Inventory(window)

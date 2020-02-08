@@ -191,7 +191,7 @@ def main():
 
 
 
-    window.config(menu=src.Menu.SpecialMenu(window))
+    window.config(menu=src.Menu.SpecialMenu(window, conector))
     window.mainloop()
 
 
