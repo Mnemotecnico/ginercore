@@ -9,7 +9,8 @@ Todavía no es ni una pre-alpha funcional, así que no entraré en detalles toda
 
 ## Dependencias
 
-mysql-connector-python (no usar mysql-connector, está obsoleto)
+mysql-connector-python (no usar mysql-connector)
+tkinter (Generalmente instalado por defecto con python)
 
 ## Base de datos
 
