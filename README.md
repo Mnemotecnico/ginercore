@@ -18,8 +18,11 @@ tkinter (Generalmente instalado por defecto con python)
 Además de las dependencias, se debe crear un archivo keys.py en el directorio de App.py para los datos de conección con la base de datos:
 
 HOST = ''
+
 USER = ''
+
 PASS = ''
+
 DATABASE = ''
 
 Y, por supuesto, tener una base de datos construida con los comandos de más adelante.
