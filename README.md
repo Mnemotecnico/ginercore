@@ -13,9 +13,9 @@ mysql-connector-python (no usar mysql-connector)
 
 tkinter (Generalmente instalado por defecto con python)
 
-## Instrucciones
+## Instalación
 
-Además de las dependencias, se debe crear un archivo keys.py en el directorio de App.py para los datos de conección con la base de datos:
+Basta con clonar el repositorio en alguna carpeta que desees. Además de instalar las dependencias a tu Python, se debe crear un archivo keys.py en el directorio de App.py que incluya los datos de conección con tu base de datos mysql.
 
 HOST = ''
 
