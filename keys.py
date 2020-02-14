@@ -1,6 +1,6 @@
 # Datos para la conección mysql
 
-HOST = ''
-USER = ''
-PASS = ''
-DATABASE = ''
+HOST = 'localhost'
+USER = 'root'
+PASS = '12345gmt'
+DATABASE = 'test'

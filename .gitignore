@@ -1,3 +1,7 @@
 # Default ignored files
-.idea/
+
+**/__pycache__
+
 keys.py
+
+.idea/
