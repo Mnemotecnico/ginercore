@@ -29,14 +29,14 @@ Y, por supuesto, tener una base de datos construida con los comandos de más ade
 
 ## Base de datos
 
-Tabla productos
+Tabla productos:
 CREATE TABLE productos (productID int NOT NULL AUTO_INCREMENT, codigo_barras varchar(64), nombre varchar(255), existencias int NOT NULL, precio_compra float, precio_venta float, ubicacion VARCHAR(255), PRIMARY KEY (productID));
 
 ALTER TABLE productos AUTO_INCREMENT=10100;
 
-Tabla transacciones
+Tabla transacciones:
 CREATE TABLE transacciones (transactionID int, productID int, cantidad int);
 
-Tabla logsell
+Tabla logsell:
 CREATE TABLE logsell (transactionID INT NOT NULL AUTO_INCREMENT, fecha DATETIME NOT NULL, PRIMARY KEY (transactionID));
 ALTER TABLE logsell AUTO_INCREMENT=10100;
